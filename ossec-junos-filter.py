@@ -30,6 +30,8 @@ import argparse
 import re
 import sys
 
+bTrace = False
+
 class MultilineFormatter(argparse.HelpFormatter):
     def _fill_text(self, text, width, indent):
         # text = self._whitespace_matcher.sub(' ', text).strip()
@@ -53,7 +55,7 @@ def present(word, line):
 
 def getcommands(ipaddress, bBan, bWhitelist, bRemove, strInit, connection):
     strMsg = ""
-    strCommand = 'show configuration policy-options | display set | match {} | match "wazuh\..*list"'.format(ipaddress)
+    strCommand = r'show configuration policy-options | display set | match {} | match "wazuh\..*list"'.format(ipaddress)
     prompt = connection.find_prompt()
     result = connection.send_command(strCommand)
     bPresent = present(ipaddress, result)
@@ -88,8 +90,6 @@ def main():
     """main function
     will parse command line arguments, then dispatch to the related function
     """
-    global bTrace
-    bTrace = False
     parser = argparse.ArgumentParser(description="\
 ossec-junos-filter version 0.1, Copyright (C) 2019 Pascal Fuks|n \
 ossec-junos-filter comes with ABSOLUTELY NO WARRANTY|n \
@@ -112,8 +112,10 @@ sample config should look like:|n \
         ", formatter_class=MultilineFormatter)
     parser.add_argument("-H", "--host", type=str, help="hostname or IP address of JunOS appliance.", required= True)
     parser.add_argument("-u", "--username", type=str, help="username to logon", required=True)
-    parser.add_argument("-k", "--keyfile", type=str, help="private key file path", required=True)
+    parser.add_argument("-k", "--keyfile", type=str, help="private key file path", required=False)
     parser.add_argument("-p", "--passphrase", type=str, help="keyfile passphrase", required=True)
+    parser.add_argument("-P", "--password", trype=str, help="user's password", required=False, const="", nargs="?")
+    parser.add_argument
     parser.add_argument("-i", "--ipaddress", type=str, help="IP address to block/unblock, whitelist/unwhitelist", required=True)
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("-b", "--ban", action="store_true", help="ban the IP address - add it to wazuh.blacklist")
