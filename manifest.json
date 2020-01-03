@@ -1,0 +1,7 @@
+{
+    "name": "ossec-junos-filter",
+    "description": "Python script to add filters on junos devices. Intended to be used in ossec/wazuh.",
+    "default_locale": "en",
+    "version": "0.1.0",
+    "manifest_version": 1
+  }
