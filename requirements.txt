@@ -22,7 +22,7 @@
 #    mailto: Pascal at starhackademy.net
 bcrypt==3.1.7
 cffi==1.13.2
-cryptography==2.8
+cryptography==3.2
 future==0.18.2
 netmiko==2.4.2
 paramiko==2.7.1
